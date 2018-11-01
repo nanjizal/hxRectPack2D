@@ -1,0 +1,12 @@
+{
+    "name"         : "hxRectPack2D",
+    "url"          : "https://github.com/nanjizal/hxRectPack2D",
+    "license"      : "MIT",
+    "tags"         : ["rectangle packing"],
+    "description"  : "haxe port of rectPack2D.js https://github.com/plepers/rectpack2D credits Pierre Lepers( js port ) Patryk Czachurski ( c++ original )",
+    "version"      : "0.0.1",
+    "classPath"    : "src",
+    "releasenote"  : "Initial release, example uses Kha framework but not tied to Kha",
+    "contributors" : ["Nanjizal"],
+    "dependencies" : {}
+}

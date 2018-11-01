@@ -1,0 +1,8 @@
+# remove generated files as I don't want them in the repository..
+-cmd rm -rf bin
+-cmd cd build
+-cmd mv html5 ../bin
+-cmd cd .. 
+-cmd rm -r build
+--next
+-cmd open bin/index.html

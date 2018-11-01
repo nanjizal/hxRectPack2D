@@ -1,0 +1,3 @@
+-cmd node Kha/make -t html5
+--next
+-cmd haxe cleanupOpen.hxml
