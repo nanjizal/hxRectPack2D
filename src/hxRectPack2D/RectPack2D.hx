@@ -112,13 +112,18 @@ class RectPack2D {
             bins.push( new Bin() );
             b = bins[ bins.length - 1 ];
             b.size = rect2D( vec0, maxS, b.rects, vec1 );
+            #if haxe 4
             vec0.resize( 0 );
+            #else
+            for( i in 0...vec0.length ) vec0[ i ] = null; 
+            vec0 = [];
+            #end
             if( vec1.length == 0 ) break;
             var tmp = vec0;
             vec0 = vec1;
             vec1 = tmp;
             ccc++;
-            if( ccc > 10 ) throw "overflow";
+            if( ccc > 20 ) throw "overflow";
         }
         return true;
     }
