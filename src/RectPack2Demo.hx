@@ -14,6 +14,7 @@ import hxRectPack2D.targets.KhaRectangles;
 import kha.input.Mouse;
 import kha.graphics2.GraphicsExtension;
 import hxRectPack2D.targets.ViewOptions;
+import hxRectPack2D.output.TP;
 using kha.graphics2.GraphicsExtension;
 enum DemoEnum {
     ImageDemo;
@@ -28,9 +29,11 @@ class RectPack2Demo {
     var imageOption      = new ViewOptions( 400 + 90, 610 );
     var demoOption       = new ViewOptions( 590 + 90, 610 );
     var scaleOption      = new ViewOptions( 780 + 90, 610 );
+    var tp               = new TP();
     var packSize         = 300;//400;
     var font:            Font;
     var lastColorIndex   = 0;
+    var outputWidth:     Int;
     // Change here to switch between demo types.
     var demoType:  DemoEnum = ImageDemo;
     inline
@@ -149,6 +152,8 @@ class RectPack2Demo {
     function Pack(){
         busy = true;
         RectPack2D.pack( blocks, packSize, bins );
+        outputWidth = packSize*bins.length;
+        tp.metaDefine( 'output.png', outputWidth, packSize );
         busy = false;
     }
     inline
@@ -193,16 +198,18 @@ class RectPack2Demo {
     }
     inline
     function drawImageSheet( g: Graphics ){
+        tp.resetFrames();
         lastColorIndex = khaImages.colorIndex;
         var factor = ( khaImages.scale == 1 )? packSize: packSize*khaImages.scale;
         for ( j in 0...bins.length ){
             var bin0 = bins[ j ].rects;
             var xoff = j*factor;
             for( i in 0...bin0.length ){
-                khaImages.drawBlock( g, bin0[ i ], xoff );
+                khaImages.drawBlock( g, bin0[ i ], xoff, tp );
             }
         }
         khaImages.colorIndex = lastColorIndex;
+        trace( 'texture pack file:\n ' + tp.write() );
     }
     inline
     function drawRectangleSheet( g: Graphics ){
