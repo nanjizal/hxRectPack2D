@@ -2,6 +2,7 @@ package hxRectPack2D.targets;
 import kha.math.FastMatrix3;
 import hxRectPack2D.rectangle.XYWHF;
 import kha.graphics2.Graphics;
+import hxRectPack2D.output.TP;
 import kha.Assets;
 import kha.Image;
 import kha.Font;
@@ -50,7 +51,7 @@ class KhaImages {
     inline function currColor() return colors[ colorIndex ];
     inline function incColor() if( colorIndex++ > colors.length - 2 ) colorIndex = 0;
     inline
-    public function drawBlock( g_: Graphics, block: XYWHF, xoff: Int ){
+    public function drawBlock( g_: Graphics, block: XYWHF, xoff: Int, tp: TP ){
         var id       = block.id;
         var name     = names[ id ];
         var scale    = 1;
@@ -58,6 +59,8 @@ class KhaImages {
         g            = g_;
         image        = images[ id ];
         setDimensions( block, xoff );
+        var location = null;
+        tp.frameDefine( name, location, block );
         if( showBackColor ) fillRect();
         // trace( block.string( name ) );
         if( flipped ){
