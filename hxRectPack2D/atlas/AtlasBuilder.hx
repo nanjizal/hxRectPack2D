@@ -11,8 +11,9 @@ typedef Atlas = {
 typedef ImageWrapper = {
     var width:      Int;
     var height:     Int;
-    function draw(   fx: Int, fy: Int, toImg: ImageWrapper ): Void;
-    function drawCW( fx: Int, fy: Int, toImg: ImageWrapper ): Void;
+    function draw(   fx: Int, fy: Int, fromImg: ImageWrapper ): Void;
+    function drawCW( fx: Int, fy: Int, fromImg: ImageWrapper ): Void;
+    function drawACW( fx: Int, fy: Int, fromImg: ImageWrapper ): Void;
 }
 /** AtlasBuilder 
  *
