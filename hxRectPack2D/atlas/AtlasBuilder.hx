@@ -3,7 +3,7 @@ import hxRectPack2D.RectPack2D;
 import hxRectPack2D.rectangle.XYWHF;
 import hxRectPack2D.data.Bin;
 import hxRectPack2D.output.TP;
-import haxe.JSON;
+
 typedef Atlas = {
     var imageWrapper: ImageWrapper;
     var jsonString:   String;
