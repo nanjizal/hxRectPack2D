@@ -181,7 +181,7 @@ class TP {
         metaDefine( metaDetails.image, metaDetails.size.w, metaDetails.size.h, metaDetails.format, metaDetails.scale );
     }
     public static
-    function reconstruct( atlasJson ): FramesHolder {
+    function reconstruct( atlasJson: String ): FramesHolder {
         var data =  haxe.Json.parse( atlasJson );
         var aFrame;
         var frameStuff;
