@@ -19,9 +19,9 @@ typedef MetaDetails = {
     var app: String;
     var version: String;
     var image: String;
-    var format: String;
+    var format: PixelFormat;
     var size: Size;
-    var scale: String;
+    var scale: Float;
 }
 // Frame 
 typedef Frame = {
@@ -148,9 +148,40 @@ class TP {
         var body = frames.join(',\n');
         return header + body + ',\n' + meta + '\n    }\n}';
     }
-    
     public static
-    function reconstruct( atlasJson: String ): FramesHolder {
+    function frameHolderTraceImages( framesHolder: FramesHolder ){
+        for( frame in framesHolder.frames ) Sys.println( frame.imageName );
+    }
+    public static
+    function frameHolderToTP( framesHolder: FramesHolder ): TP {
+        var tp = new TP();
+        tp.framesHolderAdd( framesHolder );
+        tp.framesHolderToMeta( framesHolder );
+        return tp;
+    }
+    public 
+    function framesHolderAdd( framesHolder: FramesHolder ){
+        var frame_: Dimensions;
+        var frameContent: FrameContent;
+        var xywhf: XYWHF;
+        var count = 0;
+        for( frame in framesHolder.frames ){
+            frameContent = frame.frameContent;
+            frame_ = frameContent.frame;
+            xywhf = new XYWHF( count, frame_.x, frame_.y, frame_.w, frame_.h );
+            xywhf.flipped = frameContent.rotated;
+            frameDefine( frame.imageName, cast frameContent.spriteSourceSize
+                       , xywhf, false, frameContent.trimmed );
+            count++;
+        }
+    }
+    public
+    function framesHolderToMeta( framesHolder: FramesHolder ){
+        var metaDetails = framesHolder.metaDetails;
+        metaDefine( metaDetails.image, metaDetails.size.w, metaDetails.size.h, metaDetails.format, metaDetails.scale );
+    }
+    public static
+    function reconstruct( atlasJson ): FramesHolder {
         var data =  haxe.Json.parse( atlasJson );
         var aFrame;
         var frameStuff;
