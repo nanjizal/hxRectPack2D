@@ -150,7 +150,7 @@ class TP {
     }
     
     public static
-    function reconstruct( atlasJson ): FramesHolder {
+    function reconstruct( atlasJson: String ): FramesHolder {
         var data =  haxe.Json.parse( atlasJson );
         var aFrame;
         var frameStuff;
