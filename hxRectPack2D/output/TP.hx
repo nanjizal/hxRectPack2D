@@ -150,7 +150,12 @@ class TP {
     }
     public static
     function frameHolderTraceImages( framesHolder: FramesHolder ){
-        for( frame in framesHolder.frames ) Sys.println( frame.imageName );
+        for( frame in framesHolder.frames ) 
+        #if sys 
+        Sys.println( frame.imageName );
+        #else
+            trace( frame.imageName );
+        #end
     }
     public static
     function frameHolderToTP( framesHolder: FramesHolder ): TP {
