@@ -93,13 +93,16 @@ class AtlasBuilder {
                 block = bin0[ i ];
                 id = block.id;
                 name = names[ id ];
+                
                 renderBlock(  image
                             , name
                             , id
                             , xoff + block.x,  block.y
                             , block.w,         block.h
                             , block.flipped );
-                addJSONBlock( name, locations[ id ], block );
+                            var newBlock = block.clone();
+                            newBlock.x = xoff + block.x;
+                addJSONBlock( name, locations[ id ], newBlock );
             }
         }
     }
