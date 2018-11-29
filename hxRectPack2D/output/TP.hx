@@ -146,7 +146,7 @@ class TP {
     "frames": {
 \n';
         var body = frames.join(',\n');
-        return header + body + ',\n' + meta + '\n    }\n}';
+        return header + body + '},\n' + meta + '\n    \n}';
     }
     public static
     function frameHolderTraceImages( framesHolder: FramesHolder ){
@@ -193,22 +193,17 @@ class TP {
         var temp: String;
         var framesHolder: FramesHolder = { metaDetails: null, frames: new Array<Frame>() };
         var frameCount = 0;
-        for (frames in Reflect.fields(data)){
-            aFrame = Reflect.field( data, frames );
-            for( imageName in Reflect.fields( aFrame ) ){
-                frameStuff = Reflect.getProperty( aFrame, imageName );
-                temp = haxe.Json.stringify( frameStuff );
-                switch( imageName ){
-                    case 'meta':
-                        var metaDetails: MetaDetails = haxe.Json.parse( temp );
-                        framesHolder.metaDetails = metaDetails;
-                    case _:
-                        var frameContent: FrameContent = haxe.Json.parse( temp );
-                        framesHolder.frames[ frameCount ] = { imageName: imageName, frameContent: frameContent };
-                        frameCount++;
-                    }
-            }
+        aFrame = Reflect.field( data, 'frames' );
+        for( imageName in Reflect.fields( aFrame ) ){
+            frameStuff = Reflect.getProperty( aFrame, imageName );
+            temp = haxe.Json.stringify( frameStuff );
+            var frameContent: FrameContent = haxe.Json.parse( temp );
+            framesHolder.frames[ frameCount ] = { imageName: imageName, frameContent: frameContent };
+            frameCount++;
         }
+        aFrame = Reflect.field( data, 'meta' );
+        var metaDetails: MetaDetails = haxe.Json.parse( haxe.Json.stringify( aFrame ) );
+        framesHolder.metaDetails = metaDetails;
         return framesHolder;
     }
 }
