@@ -58,7 +58,7 @@ class RectPack2D {
                 var fs = Std.int( fit*step );
                 root.reset( new WH( rc.w() + fs, rc.h() + fs ) );
                 step = step/2;
-                if( step == Math.NaN ) step = 1;
+                if( step == Math.NaN || step == 0 ) step = 1;
             }
             rc = root.rc;
             if( !fail && ( minBin.area() >= rc.area() )) {
