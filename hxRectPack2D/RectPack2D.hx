@@ -112,7 +112,7 @@ class RectPack2D {
             bins.push( new Bin() );
             b = bins[ bins.length - 1 ];
             b.size = rect2D( vec0, maxS, b.rects, vec1 );
-            #if haxe 4
+            #if ( haxe>='4.0.0' )
             vec0.resize( 0 );
             #else
             for( i in 0...vec0.length ) vec0[ i ] = null; 

@@ -1,0 +1,5 @@
+-D haxe4
+-cmd haxe generateCpp.hxml
+-cmd haxelib run dox -i upkeep --title "hxRectPack2D API documentation" -D themeColor 0x000033 -D source-path https://github.com/nanjizal/hxRectPack2D/tree/master/src/ --toplevel-package hxRectPack2D 
+-cmd cd pages
+-cmd open index.html

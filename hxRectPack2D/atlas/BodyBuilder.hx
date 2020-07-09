@@ -1,5 +1,5 @@
 package hxRectPack2D.atlas;
-import hxRectPack2D.atlas.AtlasBuilder;
+//import hxRectPack2D.atlas.AtlasBuilder;
 import hxRectPack2D.RectPack2D;
 import hxRectPack2D.rectangle.XYWHF;
 import hxRectPack2D.data.Bin;
@@ -11,7 +11,7 @@ class BodyBuilder {
     var locations       : Array<Location>;
     var tp              = new TP();
     var wid             : Int;
-    var hi              : Int;
+    var hi              : Null<Int>;
     var packSize        : Int;
     public var jsonString      : String;
     public var bodyFrames      : BodyFrames;
@@ -41,7 +41,7 @@ class BodyBuilder {
     }
     // Rendering
     public function build( fileName: String, locations_: Array<Location> = null ): Void {
-        if( hi == null ) return null; // return early if not packed
+        if( hi == null ) return; // return early if not packed
         locations = ( locations_ == null )? []: locations_; 
         addMeta( fileName );
         renderToLimbs();
