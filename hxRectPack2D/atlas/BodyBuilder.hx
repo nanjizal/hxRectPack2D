@@ -1,9 +1,5 @@
 package hxRectPack2D.atlas;
-<<<<<<< HEAD
 import hxRectPack2D.atlas.AtlasBuilder;
-=======
-//import hxRectPack2D.atlas.AtlasBuilder;
->>>>>>> f2377d2c8e31e09df027f7721d5df6a181a01466
 import hxRectPack2D.RectPack2D;
 import hxRectPack2D.rectangle.XYWHF;
 import hxRectPack2D.data.Bin;
