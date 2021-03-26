@@ -6,4 +6,7 @@ Example test implemented in Kha toolkit but code designed to be used with all to
 
 Demo now includes image example with Kha located in separate repo: [hxRectPack2D_kha](https://github.com/nanjizal/hxRectPack2D_kha)
 
+Neko basic terminal use provide here:
+https://github.com/nanjizal/hxRectPack2D_pixel
+
 [Demo Kha example use of hxRectPack2D](https://nanjizal.github.io/hxRectPack2D_kha/bin/index.html)

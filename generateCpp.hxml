@@ -1,0 +1,29 @@
+# lime dox flags
+-D display
+-D doc_gen
+-D lime-doc-gen
+
+-D doc-gen
+
+# can't currently generate nme dox's.
+-lib lime
+#-lib nme
+
+--macro include('hxRectPack2D')
+--macro include('hxRectPack2D.atlas')
+--macro include('hxRectPack2D.data')
+--macro include('hxRectPack2D.output')
+--macro include('hxRectPack2D.rectangle')
+
+-cp src
+-main hxRectPack2D.upkeep.Doc
+--no-output
+
+--each
+
+--next
+-xml upkeep/cpp.xml
+-cpp foo
+
+
+# -D dump==pretty

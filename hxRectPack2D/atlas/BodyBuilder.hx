@@ -1,5 +1,9 @@
 package hxRectPack2D.atlas;
+<<<<<<< HEAD
 import hxRectPack2D.atlas.AtlasBuilder;
+=======
+//import hxRectPack2D.atlas.AtlasBuilder;
+>>>>>>> f2377d2c8e31e09df027f7721d5df6a181a01466
 import hxRectPack2D.RectPack2D;
 import hxRectPack2D.rectangle.XYWHF;
 import hxRectPack2D.data.Bin;
@@ -11,7 +15,7 @@ class BodyBuilder {
     var locations       : Array<Location>;
     var tp              = new TP();
     var wid             : Int;
-    var hi              : Int;
+    var hi              : Null<Int>;
     var packSize        : Int;
     public var jsonString      : String;
     public var bodyFrames      : BodyFrames;
