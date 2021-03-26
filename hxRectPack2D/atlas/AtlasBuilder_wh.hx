@@ -1,36 +1,20 @@
 package hxRectPack2D.atlas;
+import hxRectPack2D.atlas.AtlasBuilder;
 import hxRectPack2D.RectPack2D;
 import hxRectPack2D.rectangle.XYWHF;
 import hxRectPack2D.data.Bin;
 import hxRectPack2D.output.TP;
 
-typedef Atlas = {
-    var imageWrapper: ImageWrapper;
-    var jsonString:   String;
+typedef ImageData = { 
+    var images: Array<ImageWrapper>;
+    var names: Array<String>; 
 }
-typedef ImageWrapper = {
-    var width:      Int;
-    var height:     Int;
-    function draw(   fx: Int, fy: Int, fromImg: ImageWrapper ): Void;
-    function drawCW( fx: Int, fy: Int, fromImg: ImageWrapper ): Void;
-    function drawACW( fx: Int, fy: Int, fromImg: ImageWrapper ): Void;
-}
-/** AtlasBuilder 
- *
- *  usage:
- *
- *  var atlasBuilder = new AtlasBuilder();
- *  var width = atlasBuilder.generatePackingData( arrImages, height ); // arrImages is array of image holders
- *  var img: ImageWrapper = new ImageHolder( height, width ); // image holder is your class.
- *  var atlas: Atlas = atlasBuilder.getAtlas( 'output.png', img );
- *  
- */
-class AtlasBuilder {
+// the renderBlock is changed so that it uses the imageDraw of the block so that offsets can be used.
+class AtlasBuilder_wh {
     var blocks          = new Array<XYWHF>();
     var bins            = new Array<Bin>();
-    var names           = new Array<String>();
+    var imageData       : ImageData;
     var locations       : Array<Location>;
-    var arrImages       : Array<ImageWrapper>;
     var tp              = new TP();
     var wid             : Int;
     var hi              : Int;
@@ -43,11 +27,9 @@ class AtlasBuilder {
         tp     = new TP();
     }
     // Packing
-    public function generatePackingData( arrImages_: Array<ImageWrapper>
-                                       , names_: Array<String>, packSize_: Int ): Int {
+    public function generatePackingData( imageData_: ImageData, packSize_: Int ): Int {
         packSize    = packSize_;
-        arrImages   = arrImages_;
-        names       = names_;
+        imageData = imageData_;
         createBlocks();
         pack();
         return wid;
@@ -55,8 +37,9 @@ class AtlasBuilder {
     inline
     function createBlocks(){
         var img: ImageWrapper;
-        for( i in 0...arrImages.length ){
-            img = arrImages[ i ];
+        var images = imageData.images;
+        for( i in 0...images.length ){
+            img = images[ i ];
             blocks[ i ] = new XYWHF( i, 0, 0, img.width, img.height );
         }
     }
@@ -86,6 +69,7 @@ class AtlasBuilder {
         var block: XYWHF;
         var id: Int;
         var name: String;
+        var names = imageData.names;
         for ( j in 0...bins.length ){
             var bin0 = bins[ j ].rects;
             var xoff = j*packSize;
@@ -93,11 +77,10 @@ class AtlasBuilder {
                 block = bin0[ i ];
                 id = block.id;
                 name = names[ id ];
-                
                 renderBlock(  image
                             , name
                             , id
-                            , xoff + block.x,  block.y
+                            , xoff + block.x ,  block.y
                             , block.w,         block.h
                             , block.flipped );
                             var newBlock = block.clone();
@@ -110,24 +93,23 @@ class AtlasBuilder {
     function addJSONBlock( name: String, location: Location, block: XYWHF ): String {
         return tp.frameDefine( name, location, block );
     }
-    inline
+    
     function renderBlock( image: ImageWrapper
                         , name:  String
                         , id:    Int
                         , left:  Int,  top: Int
                         , wid:   Int,  hi:  Int
                         , flip:  Bool ){
-        var img = arrImages[ id ];
-        #if ( sys )
+        var images = imageData.images;
+        var img = images[ id ];
         Sys.println( 'render ' + name + 
-                    ': x' + left + ', y:' + top + 
+                    ': x:' + left + ', y:' + top + 
                     ', w:' + wid + ', h:' + hi + 
                     ', rotated:' + flip );
-        #end
         if( flip ){
-            image.drawCW( left, top, img );
+            //img.drawCW( left, top, image );
         } else {
-            image.draw(   left, top, img );
+            //img.draw(   left, top, image );
         }
     }
 }

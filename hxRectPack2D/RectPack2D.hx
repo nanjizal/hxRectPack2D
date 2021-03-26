@@ -41,7 +41,9 @@ class RectPack2D {
                     root.reset( minBin );
                     for( i in 0...n ){
                         var rect = v[ i ];
-                        if( root.insert( rect ) != null ) _area += rect.area();
+                        if( root.insert( rect ) != null ) {
+                            _area += rect.area();
+                        }
                     }
                     fail = true;
                     break;
@@ -58,7 +60,7 @@ class RectPack2D {
                 var fs = Std.int( fit*step );
                 root.reset( new WH( rc.w() + fs, rc.h() + fs ) );
                 step = step/2;
-                if( step == Math.NaN ) step = 1;
+                if( step == Math.NaN || step == 0 ) step = 1;
             }
             rc = root.rc;
             if( !fail && ( minBin.area() >= rc.area() )) {
@@ -86,6 +88,7 @@ class RectPack2D {
                     rect.flipped = false;
                     rect.flip();
                  }
+                 
                  clipX = Std.int( Math.max( clipX, rc.r ) );
                  clipY = Std.int( Math.max( clipY, rc.b ) ); 
                  succ.push( rect );
@@ -112,7 +115,7 @@ class RectPack2D {
             bins.push( new Bin() );
             b = bins[ bins.length - 1 ];
             b.size = rect2D( vec0, maxS, b.rects, vec1 );
-            #if haxe 4
+            #if ( haxe >= '4' )
             vec0.resize( 0 );
             #else
             for( i in 0...vec0.length ) vec0[ i ] = null; 

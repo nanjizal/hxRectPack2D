@@ -6,6 +6,45 @@ typedef Location = {
     var w: Float;
     var h: Float;
 }
+// Restructure 
+typedef FramesHolder = {
+    var metaDetails: MetaDetails;
+    var frames: Array<Frame>;
+}
+// Meta
+typedef Meta = {
+    var meta: MetaDetails;
+}
+typedef MetaDetails = {
+    var app: String;
+    var version: String;
+    var image: String;
+    var format: PixelFormat;
+    var size: Size;
+    var scale: Float;
+}
+// Frame 
+typedef Frame = {
+    var imageName: String;
+    var frameContent: FrameContent;
+}
+typedef FrameContent = {
+    var frame: Dimensions;
+    var rotated: Bool;
+    var trimmed: Bool;
+    var spriteSourceSize: Dimensions;
+}
+typedef Dimensions = {
+    var x: Int;
+    var y: Int;
+    var w: Int;
+    var h: Int;
+}
+typedef Size = {
+    var w: Int;
+    var h: Int;
+}
+
 // to make sure only valid image pixel formats are used and specified correctly.
 // left off PVRTC, PVR and ETC since I don't think we can read write them with hxFormat
 @:enum 
@@ -107,6 +146,64 @@ class TP {
     "frames": {
 \n';
         var body = frames.join(',\n');
-        return header + body + ',\n' + meta + '\n}';
+        return header + body + '},\n' + meta + '\n    \n}';
+    }
+    public static
+    function frameHolderTraceImages( framesHolder: FramesHolder ){
+        for( frame in framesHolder.frames ) 
+        #if sys 
+        Sys.println( frame.imageName );
+        #else
+            trace( frame.imageName );
+        #end
+    }
+    public static
+    function frameHolderToTP( framesHolder: FramesHolder ): TP {
+        var tp = new TP();
+        tp.framesHolderAdd( framesHolder );
+        tp.framesHolderToMeta( framesHolder );
+        return tp;
+    }
+    public 
+    function framesHolderAdd( framesHolder: FramesHolder ){
+        var frame_: Dimensions;
+        var frameContent: FrameContent;
+        var xywhf: XYWHF;
+        var count = 0;
+        for( frame in framesHolder.frames ){
+            frameContent = frame.frameContent;
+            frame_ = frameContent.frame;
+            xywhf = new XYWHF( count, frame_.x, frame_.y, frame_.w, frame_.h );
+            xywhf.flipped = frameContent.rotated;
+            frameDefine( frame.imageName, cast frameContent.spriteSourceSize
+                       , xywhf, false, frameContent.trimmed );
+            count++;
+        }
+    }
+    public
+    function framesHolderToMeta( framesHolder: FramesHolder ){
+        var metaDetails = framesHolder.metaDetails;
+        metaDefine( metaDetails.image, metaDetails.size.w, metaDetails.size.h, metaDetails.format, metaDetails.scale );
+    }
+    public static
+    function reconstruct( atlasJson: String ): FramesHolder {
+        var data =  haxe.Json.parse( atlasJson );
+        var aFrame;
+        var frameStuff;
+        var temp: String;
+        var framesHolder: FramesHolder = { metaDetails: null, frames: new Array<Frame>() };
+        var frameCount = 0;
+        aFrame = Reflect.field( data, 'frames' );
+        for( imageName in Reflect.fields( aFrame ) ){
+            frameStuff = Reflect.getProperty( aFrame, imageName );
+            temp = haxe.Json.stringify( frameStuff );
+            var frameContent: FrameContent = haxe.Json.parse( temp );
+            framesHolder.frames[ frameCount ] = { imageName: imageName, frameContent: frameContent };
+            frameCount++;
+        }
+        aFrame = Reflect.field( data, 'meta' );
+        var metaDetails: MetaDetails = haxe.Json.parse( haxe.Json.stringify( aFrame ) );
+        framesHolder.metaDetails = metaDetails;
+        return framesHolder;
     }
 }
