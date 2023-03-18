@@ -21,7 +21,7 @@ class XYWHF extends XYWH {
         return Sorts.all();
     }
     public function toObject( name: String = '' ){
-        return { id: id, name: name, x: x, y: x, width: w, height: h };
+        return { id: id, name: name, x: x, y: y, width: w, height: h };
     }
     public function string( name: String ){
         return Std.string( toObject( name ) );
