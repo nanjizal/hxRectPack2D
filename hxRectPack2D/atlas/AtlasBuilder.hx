@@ -33,7 +33,7 @@ class AtlasBuilder {
     var arrImages       : Array<ImageWrapper>;
     var tp              = new TP();
     var wid             : Int;
-    var hi              : Int;
+    var hi              : Null<Int>; // Modified for https://github.com/jobf openfl's lime experiment for cpp.
     var packSize        : Int;
     public function new(){}
     public function reset(){
